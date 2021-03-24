@@ -19,14 +19,13 @@ services:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
-      - "${PROJECT_NAME}"
+      - traefik
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=${PROJECT_NAME}"
+      - "traefik.docker.network=traefik"
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.routers.dashboard.rule=Host(`${BASE_DOMAIN}.localhost`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
 
 networks:
   traefik:
-    name: "${PROJECT_NAME}"
     external: true

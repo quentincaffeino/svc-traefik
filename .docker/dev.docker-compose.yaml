@@ -20,7 +20,7 @@ services:
     expose:
       - "9411"
     networks:
-      - "${PROJECT_NAME}"
+      - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.${PROJECT_NAME}_zipkin.loadbalancer.server.port=9411"
