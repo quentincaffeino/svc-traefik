@@ -26,7 +26,7 @@ Traefik is an open-source Edge Router that makes publishing your services a fun 
 
 ## Variables
 
-- `BASE_DOMAIN` - The base domain on which services would run. For example traefik dashboard could be acessed on `http://BASE_DOMAIN.localhost/dashboard/` (By default: http://traefik.localhost/dashboard/)
+- `BASE_DOMAIN` - The base domain on which this service would run. For example traefik dashboard could be acessed on `http://BASE_DOMAIN.localhost/dashboard/` (By default: http://traefik.localhost/dashboard/). This does not set base domain for services that use traefik.
 - `HTTP_PORT` & `HTTPS_PORT` - Ports that traefik would listen to
 - `ACME_EMAIL` - You **MUST** set it in production. This email will be used to register your letsencrypt certificates for services that would run under this traefik service.
 
