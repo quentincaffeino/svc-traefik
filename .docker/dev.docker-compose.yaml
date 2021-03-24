@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  traefik:
+    command:
+      - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--tracing.serviceName=traefik"
+      - "--tracing.zipkin.httpEndpoint=http://zipkin.${BASE_DOMAIN}.localhost/api/v2/spans"
+
+  zipkin-slim:
+    image: ghcr.io/openzipkin/zipkin-slim
+    user: ${USER}
+    read_only: true
+    tmpfs:
+      - /tmp
+    expose:
+      - "9411"
+    networks:
+      - "${PROJECT_NAME}"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.${PROJECT_NAME}_zipkin.loadbalancer.server.port=9411"
+      - "traefik.http.routers.${PROJECT_NAME}_zipkin.rule=Host(`zipkin.${BASE_DOMAIN}.localhost`)"
+      - "traefik.http.routers.${PROJECT_NAME}_zipkin.entrypoints=web"
