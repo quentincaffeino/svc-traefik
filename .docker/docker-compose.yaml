@@ -19,4 +19,4 @@ services:
       - ${HTTPS_PORT:-443}:443
     volumes:
       # Create a letsencrypt dir within the folder where the docker-compose file is
-      - "/etc/letsencrypt:/letsencrypt"
+      - /etc/letsencrypt:/letsencrypt:rw
