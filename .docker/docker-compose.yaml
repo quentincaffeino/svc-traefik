@@ -10,8 +10,9 @@ services:
       - "--entryPoints.web.address=:80"
       - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
       - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
-      # Enable a tls challenge named "cert_resolver"
-      - "--certificatesresolvers.cert_resolver.acme.tlschallenge=true"
+      # Enable a http challenge named "cert_resolver"
+      - "--certificatesresolvers.cert_resolver.acme.httpchallenge=true"
+      - "--certificatesresolvers.cert_resolver.acme.httpchallenge.entrypoint=web"
       - "--certificatesresolvers.cert_resolver.acme.email=${ACME_EMAIL}"
       - "--certificatesresolvers.cert_resolver.acme.storage=/letsencrypt/acme.json"
     ports:
