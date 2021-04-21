@@ -15,7 +15,6 @@ services:
 
   zipkin-slim:
     image: ghcr.io/openzipkin/zipkin-slim
-    user: ${USER}
     read_only: true
     tmpfs:
       - /tmp

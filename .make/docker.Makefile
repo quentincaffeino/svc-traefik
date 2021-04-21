@@ -15,7 +15,7 @@ DOCKER_COMPOSE_FILES := $(shell echo '${DOCKER_COMPOSE_FILES}' | sed -rE 's/.*"(
 
 ###> docker-compose submodules ###
 ## A list of docker-compose submodules
-DOCKER_COMPOSE_SUBMODULES ?= $(shell find . -mindepth 1 -maxdepth 1 -type d -not -name '.*')
+DOCKER_COMPOSE_SUBMODULES ?= 
 
 define docker_submodule_make
 	$(MAKE) -e -C${1} ${2};
@@ -26,12 +26,11 @@ define docker_submodules_make
 endef
 ###< docker-compose submodules ###
 
-###> run as current (hopefully non-root) user ###
+###> run as current user (idealy non-root) ###
 # @see https://americanexpress.io/do-not-run-dockerized-applications-as-root/
 export USER_UID  = $(shell id -u)
 export GROUP_UID = $(shell id -g)
-export USER      = $(USER_UID):$(GROUP_UID)
-###< run as current (hopefully non-root) user ###
+###< run as current user (idealy non-root) ###
 
 ## Docker - restart docker-compose containers
 docker: docker-stop docker-rmf docker-upd
@@ -78,6 +77,11 @@ docker-logs:
 	$(QUIET) $(call docker_compose, logs $(o) $(s))
 	$(QUIET) $(call docker_submodules_make, docker-logs o="$(o)" s="$(s)")
 
+## Docker - View and follow output from containers
+.PHONY: docker-logsf
+docker-logsf:
+	$(QUIET) $(MAKE) -e docker-logs o="--follow $(o)" s="$(s)"
+
 ## Docker - Pause services
 .PHONY: docker-pause
 docker-pause:
@@ -117,7 +121,7 @@ docker-rm:
 ## Docker - Force remove stopped containers
 .PHONY: docker-rmf
 docker-rmf:
-	$(QUIET) $(MAKE) -e docker-rm o="-f $(o)" s="$(s)"
+	$(QUIET) $(MAKE) -e docker-rm o="--force $(o)" s="$(s)"
 
 ## Docker - Start services
 .PHONY: docker-start
@@ -152,4 +156,4 @@ docker-up:
 ## Docker - Create and start containers in detached state
 .PHONY: docker-upd
 docker-upd:
-	$(QUIET) $(MAKE) -e docker-up o="-d $(o)" s="$(s)"
+	$(QUIET) $(MAKE) -e docker-up o="--detach $(o)" s="$(s)"
