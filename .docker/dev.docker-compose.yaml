@@ -12,6 +12,9 @@ services:
       - "--entrypoints.web.address=:80"
       - "--tracing.serviceName=traefik"
       - "--tracing.zipkin.httpEndpoint=http://zipkin.${BASE_DOMAIN}.localhost/api/v2/spans"
+    labels:
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.rule=Host(`${BASE_DOMAIN}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
 
   zipkin-slim:
     image: ghcr.io/openzipkin/zipkin-slim
@@ -25,5 +28,5 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.${PROJECT_NAME}_zipkin.loadbalancer.server.port=9411"
-      - "traefik.http.routers.${PROJECT_NAME}_zipkin.rule=Host(`zipkin.${BASE_DOMAIN}.localhost`)"
+      - "traefik.http.routers.${PROJECT_NAME}_zipkin.rule=Host(`zipkin.${BASE_DOMAIN}`)"
       - "traefik.http.routers.${PROJECT_NAME}_zipkin.entrypoints=web"
