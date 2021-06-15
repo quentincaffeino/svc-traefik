@@ -11,7 +11,7 @@ services:
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
       - "--tracing.serviceName=traefik"
-      - "--tracing.zipkin.httpEndpoint=http://zipkin.${BASE_DOMAIN}.localhost/api/v2/spans"
+      - "--tracing.zipkin.httpEndpoint=http://zipkin.${BASE_DOMAIN}/api/v2/spans"
     labels:
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.routers.dashboard.rule=Host(`${BASE_DOMAIN}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
