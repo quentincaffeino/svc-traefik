@@ -7,7 +7,7 @@ services:
     tmpfs:
       - /tmp
     command:
-      - "--log.level=ERROR"
+      - "--log.level=${LOG_LEVEL}"
       - "--api.insecure=true"
       # Enabling docker provider
       - "--providers.docker=true"
