@@ -25,15 +25,6 @@ Traefik is an open-source Edge Router that makes publishing your services a fun 
 	- [dotenv <small>[extends svc-base-make]</small>](#dotenv-smallextends-svc-base-makesmall)
 		- [Overrides <small>[extends svc-base-make]</small>](#overrides-smallextends-svc-base-makesmall)
 
-- [Base repo for docker based services with make](#extends-base-repo-for-docker-based-services-with-make)
-	- [Variables](#variables-docker)
-	- [Usage](#usage-docker)
-
-- [Base repo for services with make](#extends-base-repo-for-services-with-make)
-	- [Usage](#make-usage)
-	- [dotenv](#make-dotenv)
-		- [Overrides](#make-overrides)
-
 ## Variables
 
 - `BASE_DOMAIN` - The base domain on which this service would run. For example traefik dashboard could be acessed on `http://BASE_DOMAIN.localhost/dashboard/` (By default: http://traefik.localhost/dashboard/). This does not set base domain for services that use traefik.
