@@ -3,12 +3,11 @@ version: "3.8"
 services:
   traefik:
     image: traefik:v2.4
-    # user: ${USER} # traefik requires access to /var/run/docker.sock which is owned by root on non-root docker installations
     read_only: true
     tmpfs:
       - /tmp
     command:
-      - "--log.level=ERROR"
+      - "--log.level=${LOG_LEVEL}"
       - "--api.insecure=true"
       # Enabling docker provider
       - "--providers.docker=true"
@@ -24,8 +23,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik"
-      - "traefik.http.routers.dashboard.service=api@internal"
-      - "traefik.http.routers.dashboard.rule=Host(`${BASE_DOMAIN}.localhost`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
 
 networks:
   traefik:
