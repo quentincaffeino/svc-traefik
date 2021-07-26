@@ -13,33 +13,34 @@ Traefik is an open-source Edge Router that makes publishing your services a fun 
 ## Table of contents
 
 - [Traefik Service](#traefik-service)
+	- [Table of contents](#table-of-contents)
 	- [Variables](#variables)
-
-- [Base repo for docker based services with make](#extends-base-repo-for-docker-based-services-with-make)
-	- [Variables](#variables-docker)
-	- [Usage](#usage-docker)
-
-- [Base repo for services with make](#extends-base-repo-for-services-with-make)
-	- [Usage](#make-usage)
-	- [dotenv](#make-dotenv)
-		- [Overrides](#make-overrides)
+- [Base repo for docker based services with make <small>[extends svc-base-docker]</small>](#base-repo-for-docker-based-services-with-make-smallextends-svc-base-dockersmall)
+	- [Variables <small>[extends svc-base-docker]</small>](#variables-smallextends-svc-base-dockersmall)
+	- [Usage <small>[extends svc-base-docker]</small>](#usage-smallextends-svc-base-dockersmall)
+		- [Compose options <small>[extends svc-base-docker]</small>](#compose-options-smallextends-svc-base-dockersmall)
+		- [Extra commands <small>[extends svc-base-docker]</small>](#extra-commands-smallextends-svc-base-dockersmall)
+- [Base repo for services with make <small>[extends svc-base-make]</small>](#base-repo-for-services-with-make-smallextends-svc-base-makesmall)
+	- [Usage <small>[extends svc-base-make]</small>](#usage-smallextends-svc-base-makesmall)
+	- [dotenv <small>[extends svc-base-make]</small>](#dotenv-smallextends-svc-base-makesmall)
+		- [Overrides <small>[extends svc-base-make]</small>](#overrides-smallextends-svc-base-makesmall)
 
 ## Variables
 
 - `BASE_DOMAIN` - The base domain on which this service would run. For example traefik dashboard could be acessed on `http://BASE_DOMAIN.localhost/dashboard/` (By default: http://traefik.localhost/dashboard/). This does not set base domain for services that use traefik.
-- `HTTP_PORT` & `HTTPS_PORT` - Ports that traefik would listen to
+- `HTTP_PORT` & `HTTPS_PORT` - Ports that traefik would listen to. Defaults to 80 and 443.
 - `ACME_EMAIL` - You **MUST** set it in production. This email will be used to register your letsencrypt certificates for services that would run under this traefik service.
 
-# [Extends] Base repo for docker based services with make
+# Base repo for docker based services with make <small>[extends svc-base-docker]</small>
 
 This setup makes use of `docker-compose` ability to combine multiple configurations by reading several input files via defining multiple `-f` attributes and also combines it with environment-based make to make use easier with multi-environment setups with dynamic variables and env-based `docker-compose` configs
 
-## Variables (Docker)
+## Variables <small>[extends svc-base-docker]</small>
 
 - `PROJECT_NAME` - Project name
-- `BASE_DOCKER_COMPOSE_FILES` & `DOCKER_COMPOSE_FILES` - Instructs make to which docker-compose files use for which environment
+- `DOCKER_COMPOSE_FILES` - Instructs make which docker-compose files use for which environment
 
-## Usage (Docker)
+## Usage <small>[extends svc-base-docker]</small>
 
 Every `docker-compose` comand is wrapped with `make`. Example usage:
 
@@ -53,12 +54,12 @@ make docker-build s="service-name"
 
 Where `COMMAND-NAME` is a docker-compose command name (eg.: up, down, config, ...)
 
-### Compose options (Docker)
+### Compose options <small>[extends svc-base-docker]</small>
 
-There are times when you need to pass extra variables to `docker-compose` command. Most of them accept some sort of options flags/attributes. Those could be passed using `o` (options) variable like so:
+There are times when you need to pass extra variables to `docker-compose` command. Most of them accept some sort of options flags/attributes. Those could be passed using `go` (global options for docker-compose) or `o` (options for docker-compose\ command) variable like so:
 
 ```sh
-make docker-up o="-d"
+make docker-up go=--verbose o="-d"
 ```
 
     Note: Quotes are only nessesary when there are multiple space-separated flags/attrs to pass to the command.
@@ -69,36 +70,42 @@ Some commands also accept service(s) which to run command against (eg.: `build` 
 make docker-build s="service-name service2-name"
 ```
 
-### Extra commands (Docker)
+### Extra commands <small>[extends svc-base-docker]</small>
 
-Some commands with options are very commonly used and because to write them each time is very inconvenient shortcuts were introduced:
+Some commands with options are very commonly used and because to write them each time is very inconvenient shortcuts were added:
 
 ```sh
 make docker-upd
 # is same as
-make docker-up o="-d" # Detached mode: Run containers in the background.
+make docker-up o="--detach" # Detached mode: Run containers in the background.
 
 # AND
 
 make docker-rmf
 # is same as
-make docker-rm o="-f" # Don't ask to confirm removal
+make docker-rm o="--force" # Don't ask to confirm removal
+
+# AND
+
+make docker-logsf
+# is same as
+make docker-logs o="--follow" # View and follow output from containers
 ```
 
-# [Extends] Base repo for services with make
+# Base repo for services with make <small>[extends svc-base-make]</small>
 
 Make setup which makes use of per-environment dotenv files
 
-## [Make] Usage
+## Usage <small>[extends svc-base-make]</small>
 
 ```sh
 make help
 ```
 
-## [Make] dotenv
+## dotenv <small>[extends svc-base-make]</small>
 
 Using `make` and per-environment dotenv files it is prepaired to run on several environments.
 
-### [Make] Overrides
+### Overrides <small>[extends svc-base-make]</small>
 
 To override variables locally create `.env.local` or `.env.ENVIRONMENT-NAME.local` (eg.: `.env.prod.local`) files.
