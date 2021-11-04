@@ -17,10 +17,12 @@ Traefik is an open-source Edge Router that makes publishing your services a fun 
 	- [Variables](#variables)
 - [Base repo for docker based services with make <small>[extends svc-base-docker]</small>](#base-repo-for-docker-based-services-with-make-smallextends-svc-base-dockersmall)
 	- [Variables <small>[extends svc-base-docker]</small>](#variables-smallextends-svc-base-dockersmall)
+	- [Prerequisites <small>[extends svc-base-docker]</small>](#prerequisites-smallextends-svc-base-dockersmall)
 	- [Usage <small>[extends svc-base-docker]</small>](#usage-smallextends-svc-base-dockersmall)
 		- [Compose options <small>[extends svc-base-docker]</small>](#compose-options-smallextends-svc-base-dockersmall)
 		- [Extra commands <small>[extends svc-base-docker]</small>](#extra-commands-smallextends-svc-base-dockersmall)
 - [Base repo for services with make <small>[extends svc-base-make]</small>](#base-repo-for-services-with-make-smallextends-svc-base-makesmall)
+	- [Prerequisites <small>[extends svc-base-make]</small>](#prerequisites-smallextends-svc-base-makesmall)
 	- [Usage <small>[extends svc-base-make]</small>](#usage-smallextends-svc-base-makesmall)
 	- [dotenv <small>[extends svc-base-make]</small>](#dotenv-smallextends-svc-base-makesmall)
 		- [Overrides <small>[extends svc-base-make]</small>](#overrides-smallextends-svc-base-makesmall)
@@ -40,6 +42,14 @@ This setup makes use of `docker-compose` ability to combine multiple configurati
 - `PROJECT_NAME` - Project name
 - `DOCKER_COMPOSE_FILES` - Instructs make which docker-compose files use for which environment
 
+## Prerequisites <small>[extends svc-base-docker]</small>
+
+- sh
+- make
+- perl
+- docker
+- docker compose (or docker-compose, supports both)
+
 ## Usage <small>[extends svc-base-docker]</small>
 
 Every `docker-compose` comand is wrapped with `make`. Example usage:
@@ -56,7 +66,7 @@ Where `COMMAND-NAME` is a docker-compose command name (eg.: up, down, config, ..
 
 ### Compose options <small>[extends svc-base-docker]</small>
 
-There are times when you need to pass extra variables to `docker-compose` command. Most of them accept some sort of options flags/attributes. Those could be passed using `go` (global options for docker-compose) or `o` (options for docker-compose\ command) variable like so:
+There are times when you need to pass extra variables to `docker-compose` command. Most of them accept some sort of options flags/attributes. Those could be passed using `go` (global options for docker-compose) or `o` (options for docker-compose command) variable like so:
 
 ```sh
 make docker-up go=--verbose o="-d"
@@ -95,6 +105,12 @@ make docker-logs o="--follow" # View and follow output from containers
 # Base repo for services with make <small>[extends svc-base-make]</small>
 
 Make setup which makes use of per-environment dotenv files
+
+## Prerequisites <small>[extends svc-base-make]</small>
+
+- sh
+- make
+- perl
 
 ## Usage <small>[extends svc-base-make]</small>
 
