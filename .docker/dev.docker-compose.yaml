@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   traefik:
     command:
@@ -15,6 +13,8 @@ services:
     labels:
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.routers.dashboard.rule=Host(`${BASE_DOMAIN}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+    depends_on:
+      - zipkin-slim
 
   zipkin-slim:
     image: ghcr.io/openzipkin/zipkin-slim
