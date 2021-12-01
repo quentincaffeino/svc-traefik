@@ -1,6 +1,6 @@
 services:
   traefik:
-    restart: always
+    restart: unless-stopped
     command:
       - "--log.level=${LOG_LEVEL}"
       # Enabling docker provider
