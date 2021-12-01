@@ -21,6 +21,10 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik"
+    cap_drop:
+      - ALL
+    cap_add:
+      - CAP_NET_BIND_SERVICE
 
 networks:
   traefik:
