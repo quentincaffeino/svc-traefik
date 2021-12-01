@@ -1,6 +1,6 @@
 services:
   traefik:
-    image: traefik:v2.4
+    image: traefik:${TRAEFIK_VERSION}
     read_only: true
     tmpfs:
       - /tmp
