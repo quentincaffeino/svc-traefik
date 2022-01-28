@@ -1,7 +1,7 @@
 
 .idea/
 .env*.local
-.docker/*local.docker-compose.yaml
+*local.docker-compose.yaml
 
 # Created by https://www.toptal.com/developers/gitignore/api/osx,linux,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=osx,linux,windows
