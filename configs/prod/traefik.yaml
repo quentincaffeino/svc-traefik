@@ -1,0 +1,13 @@
+api:
+  dashboard: false
+  insecure: false
+
+providers:
+  file:
+    directory: "/config"
+    watch: true
+
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    watch: true
+    exposedByDefault: false
